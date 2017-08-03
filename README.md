@@ -54,6 +54,8 @@ We need to instanciate :
   * a `SerialNumber` characterisic
 * a `Switch` service containing :
   * a `On`characteristic - the only required characteristic of this service
+* Item 2
+  * Item 2a
   
 Unlike `AccessoryInformation` service's characteristics, which are readable and require only a getter, the `On` characteristic is writtable and require a getter and setter. 
 
