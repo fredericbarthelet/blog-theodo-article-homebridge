@@ -24,17 +24,23 @@ You need a proxy between Homekit and your device. Most connected objects manufac
 Your proxy will receive Homekit requests and translate them according to your object API and protocols.
 The proxy used for this article is a wrapper of [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS) called [Homebridge](https://github.com/nfarina/homebridge).
 
+## Let's code
+
 Our device is a switch. It can be controlled through a RESTful API over HTTP protocol on our LAN.
 We will create a Homebridge plugin registering a new Accessory with a single `Switch` service.
 Such service has a single `On` boolean characteristic.
 
-First, we need to include required dependancies to make this plugin Homebridge compatible.
+First, we need to provide inject our plugin within homebridge.
+`mySwitch` is the javascript object that will contain our control logic.
+
 ```javascript
 var Service, Characteristic;
 
 module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-  homebridge.registerAccessory("homebridge-smappee", "HomebridgeSmappee", HomebridgeSmappee);
+  homebridge.registerAccessory("switch-plugin", "MyAwesomeSwitch", mySwitch);
 };
 ```
+
+
