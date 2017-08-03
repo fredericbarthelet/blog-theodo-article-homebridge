@@ -47,15 +47,14 @@ module.exports = function (homebridge) {
 
 The core logic built within HAP-node.js and Homebridge is located wihtin the `getServices` prototype function of `mySwitch` object.
 We will instanciate our services in this function. We will also define which getter and setter of each characteristic of each service it shall call on every requests received from Homekit.
+
 We need to instanciate :
-* a `AccessoryInformation` service containing :
-  * a `Manufacturer` characteristic - the only required characteristic of this service
-  * a `Model` characteristic
-  * a `SerialNumber` characterisic
-* a `Switch` service containing :
-  * a `On`characteristic - the only required characteristic of this service
-* Item 2
-  * Item 2a
+* an `AccessoryInformation` service containing:
+  * a `Manufacturer` characteristic - the only required characteristic of this service
+  * a `Model` characteristic
+  * a `SerialNumber` characterisic
+* a `Switch` service containing:
+  * a `On`characteristic - the only required characteristic of this service
   
 Unlike `AccessoryInformation` service's characteristics, which are readable and require only a getter, the `On` characteristic is writtable and require a getter and setter. 
 
