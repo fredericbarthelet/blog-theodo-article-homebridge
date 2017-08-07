@@ -84,8 +84,8 @@ mySwitch.prototype = {
 
 We will now write the logic of `On` characteristic getter and setter within dedicated prototype function of `mySwitch` object.
 We will make the following assumption regarding the RESTful API offered by the switch :
-* GET requests on http://<mySwitchIp>/api/status returns a `{ currentState: <boolean> }` reflecting the switch current state
-* POST requests on http://<mySwitchIp>/api/order sending a `{ targetState: <boolean> }` reflecting desired target state set the switch state
+* GET requests on http://192.168.0.10/api/status returns a `{ currentState: <boolean> }` reflecting the switch current state
+* POST requests on http://192.168.0.10/api/order sending a `{ targetState: <boolean> }` reflecting desired target state set the switch state
 
 We will use `request` and `url` modules to peform our HTTP requests.
 
