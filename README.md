@@ -109,7 +109,7 @@ mySwitch.prototype = {
         url: me.getUrl,
         method: 'GET',
     }, 
-    function(error, response, body) {
+    function (error, response, body) {
       if (error) {
         me.log('STATUS: ' + response.statusCode);
         me.log(error.message);
