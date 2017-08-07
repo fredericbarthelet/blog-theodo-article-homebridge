@@ -103,7 +103,7 @@ function mySwitch(log, config) {
 
 mySwitch.prototype = {
 
-  getSwitchOnCharacteristic: function(next) {
+  getSwitchOnCharacteristic: function (next) {
     var me = this;
     request({
         url: me.getUrl,
@@ -119,7 +119,7 @@ mySwitch.prototype = {
     });
   },
   
-  setSwitchOnCharacteristic: function(on, next) {
+  setSwitchOnCharacteristic: function (on, next) {
     var me = this;
     request({
       url: me.postUrl,
