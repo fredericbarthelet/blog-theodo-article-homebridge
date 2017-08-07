@@ -50,19 +50,21 @@ We will instanciate our services in this function. We will also define which get
 
 We need to instanciate :
 * an `AccessoryInformation` service containing:
-  * a `Manufacturer` characteristic - the only required characteristic of this service
+  * a `Name` characteristic - the only required characteristic of this service
+  * a `Manufacturer` characteristic
   * a `Model` characteristic
   * a `SerialNumber` characterisic
 * a `Switch` service containing:
   * an `On`characteristic - the only required characteristic of this service
   
-Unlike `AccessoryInformation` service's characteristics, which are readable and require only a getter, the `On` characteristic is writtable and require a getter and setter. 
+Unlike `AccessoryInformation` service's characteristics, which are readable and can be set at plugin initialisation, the `On` characteristic is writtable and require a getter and setter. 
 
 ```javascript
 mySwitch.prototype = {
   getServices: function () {
     var informationService = new Service.AccessoryInformation();
     informationService
+      .setCharacteristic(Characteristic.Name, "My switch")
       .setCharacteristic(Characteristic.Manufacturer, "My switch manufacturer")
       .setCharacteristic(Characteristic.Model, "My switch model")
       .setCharacteristic(Characteristic.SerialNumber, "123-456-789");
@@ -78,5 +80,60 @@ mySwitch.prototype = {
     return [informationService, switchService];
   }
 };
+```
+
+We will now write the logic of `On` characteristic getter and setter within dedicated prototype function of `mySwitch` object.
+We will make the following assumption regarding the RESTful API offered by the switch :
+* GET requests on http://<mySwitchIp>/api/status returns a `{ currentState: <boolean> }` reflecting the switch current state
+* POST requests on http://<mySwitchIp>/api/order sending a `{ targetState: <boolean> }` reflecting desired target state set the switch state
+
+We will use `request` and `url` modules to peform our HTTP requests.
+
+Our configuration object, defined within Homebridge global configuration JSON, will contain both URLs described above.
+
+```javascript
+const request = require('request');
+const url = require('url');
+
+function mySwitch(log, config) {
+  this.log = log;
+  this.getUrl = url.parse(config['getUrl']);
+  this.postUrl = url.parse(config['postUrl']);
+}
+
+mySwitch.prototype = {
+
+  getSwitchOnCharacteristic: function(next) {
+    var me = this;
+    request({
+        url: me.getUrl,
+        method: 'GET',
+    }, 
+    function(error, response, body) {
+      if (error) {
+        me.log('STATUS: ' + response.statusCode);
+        me.log(error.message);
+        next(error);
+      }
+      next(null, body.currentState);
+    });
+  },
+  
+  setSwitchOnCharacteristic: function(on, next) {
+    var me = this;
+    request({
+      url: me.postUrl,
+      body: {'targetState': on},
+      method: 'POST',
+      headers: {'Content-type': 'application/json'}
+    },
+    function (error, response) {
+      if (error) {
+        me.log('STATUS: ' + response.statusCode);
+        me.log(error.message);
+        next(error);
+      }
+      next();
+  }
 ```
 
