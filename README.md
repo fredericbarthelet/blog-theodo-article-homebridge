@@ -50,6 +50,7 @@ We will instanciate our services in this function. We will also define which get
 
 We need to instanciate :
 * an `AccessoryInformation` service containing:
+  * a `SerialNumber` characterisic
   * a `Name` characteristic - the only required characteristic of this service
   * a `Manufacturer` characteristic
   * a `Model` characteristic
