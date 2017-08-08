@@ -1,12 +1,12 @@
 # How to make Siri your perfect home companion without Apple Homekit compatible devices
 
-## Why Homekit ?
+## Why Homekit?
 
-Homekit is a home accessory management framework developped by Apple. 
+[Homekit](https://developer.apple.com/homekit/) is a home accessory management framework developped by Apple. 
 It allows Apple devices' owners to control connected objects from different manufacturers using a single interface.
 It enhances Siri's capability to interprete commands intended for those devices.
 
-## How doest it work ?
+## How doest it work?
 
 As of today, only a small number of Homekit enabled devices are available on the market.
 The software included within those devices is able to receive requests made using Homekit protocol.
@@ -36,7 +36,7 @@ First, we need to inject our plugin within homebridge.
 `mySwitch` is the javascript object that will contain our control logic.
 
 ```javascript
-var Service, Characteristic;
+const Service, Characteristic;
 
 module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
@@ -62,14 +62,14 @@ Unlike `AccessoryInformation` service's characteristics, which are readable and 
 ```javascript
 mySwitch.prototype = {
   getServices: function () {
-    var informationService = new Service.AccessoryInformation();
+    let informationService = new Service.AccessoryInformation();
     informationService
       .setCharacteristic(Characteristic.Name, "My switch")
       .setCharacteristic(Characteristic.Manufacturer, "My switch manufacturer")
       .setCharacteristic(Characteristic.Model, "My switch model")
       .setCharacteristic(Characteristic.SerialNumber, "123-456-789");
 
-    var switchService = new Service.Switch("My switch");
+    let switchService = new Service.Switch("My switch");
     switchService
       .getCharacteristic(Characteristic.On)
         .on('get', this.getSwitchOnCharacteristic.bind(this))
@@ -104,7 +104,7 @@ function mySwitch(log, config) {
 mySwitch.prototype = {
 
   getSwitchOnCharacteristic: function (next) {
-    var me = this;
+    const me = this;
     request({
         url: me.getUrl,
         method: 'GET',
@@ -120,7 +120,7 @@ mySwitch.prototype = {
   },
   
   setSwitchOnCharacteristic: function (on, next) {
-    var me = this;
+    const me = this;
     request({
       url: me.postUrl,
       body: {'targetState': on},
