@@ -50,7 +50,6 @@ We will instanciate our services in this function. We will also define which get
 
 We need to instanciate :
 * an `AccessoryInformation` service containing:
-  * a `Name` characteristic - the only required characteristic of this service
   * a `Manufacturer` characteristic
   * a `Model` characteristic
   * a `SerialNumber` characterisic
@@ -64,7 +63,6 @@ mySwitch.prototype = {
   getServices: function () {
     let informationService = new Service.AccessoryInformation();
     informationService
-      .setCharacteristic(Characteristic.Name, "My switch")
       .setCharacteristic(Characteristic.Manufacturer, "My switch manufacturer")
       .setCharacteristic(Characteristic.Model, "My switch model")
       .setCharacteristic(Characteristic.SerialNumber, "123-456-789");
