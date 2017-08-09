@@ -1,4 +1,4 @@
-# How to make Siri your perfect home companion without Apple Homekit compatible devices
+# How to make Siri your perfect home companion with devices not supported by Apple Homekit
 
 ## Why Homekit?
 
@@ -11,22 +11,23 @@ It enhances Siri's capability to interprete commands intended for those devices.
 As of today, only a small number of Homekit enabled devices are available on the market.
 The software included within those devices is able to receive requests made using Homekit protocol.
 
-**Homekit architecture**
+For other devices, you need a proxy between Homekit and your device. Most connected object manufacturers define their own way to interact with their devices (API and protocols).
+Your proxy will receive Homekit requests and translate them according to your device interface.
+The proxy used for this article is a wrapper of [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS) called [Homebridge](https://github.com/nfarina/homebridge).
+
+Homebridge will create a `Bridge` Homekit object. All plugins references in Homebridge will appear in your Homekit service automatically.
+Each of those plugin will allow you to link objects, based on Homekit architecture's object :
+**Chercher intro + ref sur l'architecture homekit**
+* *Platform*: A group of accessories.
 * *Accessory*: An accessory can be associated to a physical object.
 * *Service*: A service correspond to an object's function. A garage door may have a service to open and close the door as well as another service to turn on and off the garage light.
 * *Characteristic*: Each service has a set of properties called characteristics. The garage door has a `Current Door State` and a `Target Door State` boolean. Each characteritics of a service identifies its current state. Each characteristic has 3 permission levels : read, write and notify.
 
 Homekit enables you to choose within a list of existing service, each associated with their compulsory characteristics. Any optional characteristics can be added to a service based on your needs.
 
-**What if my object is not Homekit compatible**
-
-You need a proxy between Homekit and your device. Most connected objects manufacturers develop their own API.
-Your proxy will receive Homekit requests and translate them according to your object API and protocols.
-The proxy used for this article is a wrapper of [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS) called [Homebridge](https://github.com/nfarina/homebridge).
-
 ## Let's code
-
-Our device is a switch. It can be controlled through a RESTful API over HTTP protocol on our LAN.
+**Inclure les pré-requis ici**
+Let's code a plugin for a fake switch. It can be controlled through a RESTful API over HTTP protocol on our LAN.
 
 We will create a Homebridge plugin registering a new Accessory with two services:
 * `AccessoryInformation` service, required for every accessory, whatever the type, broadcasting information related to the device itself
