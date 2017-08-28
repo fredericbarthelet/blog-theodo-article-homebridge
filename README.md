@@ -18,7 +18,7 @@ Homekit defines a layout for your home and your connected objects.
 * *Accessory*: An accessory is a physical home automation device.
 * *Bridge*: A bridge is a special type of accessory that allows you to communicate with accessories that can’t communicate directly with HomeKit. For example, a bridge might be a hub for multiple lights that use a communication protocol other than HomeKit Accessory Protocol.
 * *Service*: A service correspond to an accessory's function. A garage door may have a service to open and close the door as well as another service to turn on and off the garage light.
-* *Characteristic*: Each service has a set of properties called characteristics. The garage door has a `Current Door State` and a `Target Door State` boolean. Each characteritics of a service identifies its current state. Each characteristic has 3 permission levels : read, write and notify. You can find a list of services and associated characteristics [here](https://github.com/KhaosT/HAP-NodeJS/blob/master/lib/gen/HomeKitTypes.js)
+* *Characteristic*: Each service has a set of properties called characteristics. The garage door has a `Current Door State` and a `Target Door State` boolean. Each characteritics of a service identifies its current state. Each characteristic has 3 permission levels : read, write and notify. You can find a list of services and associated characteristics [here](https://github.com/KhaosT/HAP-NodeJS/blob/master/lib/gen/HomeKitTypes.js).
 
 Each request made using your iOS devices Home application or Siri will use this layout to understand which object you want to act on and what action you would like to trigger.
 
