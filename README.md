@@ -169,7 +169,7 @@ Open the config.json file located in your Homebridge directory in your favorite 
 ```
 {
     "getUrl": "http://192.168.0.10/api/status",
-    "postUrl": "http://192.168.0.10/api/order",
+    "postUrl": "http://192.168.0.10/api/order"
 }
 ```
 
