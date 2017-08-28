@@ -40,11 +40,16 @@ The proxy used for this article is a NodeJS server called [Homebridge](https://g
 
 ### Instructions
 
-Let's code a plugin for a fake switch. It can be controlled through a RESTful API over HTTP protocol on our LAN.
+Let's code a plugin for a fake switch.
+We will made the following assumption regarding our switch API:
+* it can be controlled through a RESTful API over HTTP protocol on our LAN
+* the switch IP address on our LAN is 192.168.0.10
+* GET requests made to `/api/status` returns a boolean representing switch current state
+* POST requests made to `/api/order` containing a boolean representing the switch target state will trigger the corresponding action.
 
 We will create a Homebridge plugin registering a new Accessory with two services:
 * `AccessoryInformation` service, required for every accessory, whatever the type, broadcasting information related to the device itself
-* `Switch` service, corresponding to our actual switch. Such service has a single `On` boolean characteristic.
+* `Switch` service, corresponding to our actual switch. Such service has a single `On` boolean required characteristic (check the [list of services and corresponding characteristics](https://github.com/KhaosT/HAP-NodeJS/blob/master/lib/gen/HomeKitTypes.js#L3219)).
 
 First, we need to inject our plugin within homebridge.
 `mySwitch` is the javascript object that will contain our control logic.
