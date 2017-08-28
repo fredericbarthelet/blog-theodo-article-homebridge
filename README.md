@@ -31,6 +31,8 @@ Your proxy will receive Homekit requests and translate them according to your de
 
 The proxy used for this article is a NodeJS server called [Homebridge](https://github.com/nfarina/homebridge) written using [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS). Homebridge instanciate a `Bridge` Homekit object that you will be able to add through your Home application on your iOS devices. It then supports Plugins, which are community-contributed modules that provide a basic bridge from HomeKit to each of your various "smart home" devices. 
 
+![Homebridge workflow](/ressources/workflow.png)
+
 ## Writting your own plugin
 
 ### Prerequisites
