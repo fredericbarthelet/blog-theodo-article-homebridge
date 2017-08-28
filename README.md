@@ -2,28 +2,34 @@
 
 ## Why Homekit?
 
-[Homekit](https://developer.apple.com/homekit/) is a home accessory management framework developped by Apple. 
+[Homekit](https://developer.apple.com/homekit/) is a home accessories management framework developped by Apple. 
 It allows Apple devices' owners to control connected objects from different manufacturers using a single interface.
 It enhances Siri's capability to interprete commands intended for those devices.
 
 ## How doest it work?
 
-As of today, only a small number of Homekit enabled devices are available on the market.
-The software included within those devices is able to receive requests made using Homekit protocol.
+### Homekit Accessory Protocol
 
+Homekit defines a layout for your home and your connected objects. 
+
+* *Home*: A home represents a single dwelling that has a network of accessories
+* *Room*: Each home may have multiple rooms and accessories added to each room.
+* *Platform*: A group of accessories.
+* *Accessory*: An accessory is a physical home automation device.
+* *Bridge*: A bridge is a special type of accessory that allows you to communicate with accessories that can’t communicate directly with HomeKit. For example, a bridge might be a hub for multiple lights that use a communication protocol other than HomeKit Accessory Protocol.
+* *Service*: A service correspond to an object's function. A garage door may have a service to open and close the door as well as another service to turn on and off the garage light.
+* *Characteristic*: Each service has a set of properties called characteristics. The garage door has a `Current Door State` and a `Target Door State` boolean. Each characteritics of a service identifies its current state. Each characteristic has 3 permission levels : read, write and notify. You can find a list of services and associated characteristics [here](https://github.com/KhaosT/HAP-NodeJS/blob/master/lib/gen/HomeKitTypes.js)
+
+Each request made using your iOS devices Home application or Siri will use this layout to understand which object you want to act on and what action you would like to trigger.
+
+However, as of today, only a small number of Homekit enabled devices are available on the market.
 For other devices, you need a proxy between Homekit and your device. Most connected object manufacturers define their own way to interact with their devices (API and protocols).
 Your proxy will receive Homekit requests and translate them according to your device interface.
-The proxy used for this article is a wrapper of [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS) called [Homebridge](https://github.com/nfarina/homebridge).
 
-Homebridge will create a `Bridge` Homekit object. All plugins references in Homebridge will appear in your Homekit service automatically.
-Each of those plugin will allow you to link objects, based on Homekit architecture's object :
-**Chercher intro + ref sur l'architecture homekit**
-* *Platform*: A group of accessories.
-* *Accessory*: An accessory can be associated to a physical object.
-* *Service*: A service correspond to an object's function. A garage door may have a service to open and close the door as well as another service to turn on and off the garage light.
-* *Characteristic*: Each service has a set of properties called characteristics. The garage door has a `Current Door State` and a `Target Door State` boolean. Each characteritics of a service identifies its current state. Each characteristic has 3 permission levels : read, write and notify.
 
-Homekit enables you to choose within a list of existing service, each associated with their compulsory characteristics. Any optional characteristics can be added to a service based on your needs.
+### Homebridge
+
+The proxy used for this article is a NodeJS server called [Homebridge](https://github.com/nfarina/homebridge) written using [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS). Homebridge instanciate a `Bridge` Homekit object that you will be able to add through your Home application on your iOS devices. It then supports Plugins, which are community-contributed modules that provide a basic bridge from HomeKit to each of your various "smart home" devices. 
 
 ## Let's code
 **Inclure les pré-requis ici**
