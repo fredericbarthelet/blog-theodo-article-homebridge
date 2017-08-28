@@ -156,7 +156,9 @@ mySwitch.prototype = {
         next(error);
       }
       next();
+    });
   }
+}
 ```
 
 We can now add our newly created plugin to Homebridge by installing it globally:
