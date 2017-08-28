@@ -166,9 +166,11 @@ npm install -g switch-plugin@<gitUrl>
 
 Open the config.json file located in your Homebridge directory in your favorite text editor. In the accessory section, add info to the array:
 
+```
 {
     "getUrl": "http://192.168.0.10/api/status",
     "postUrl": "http://192.168.0.10/api/order",
 }
+```
 
 Restart Homebridge and you shall now be able to switch on and off this fake switch through Home app on your iOS device.
