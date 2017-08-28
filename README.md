@@ -43,6 +43,9 @@ The proxy used for this article is a NodeJS server called [Homebridge](https://g
 ### Instructions
 
 Let's code a plugin for a fake switch.
+
+Create a new repository containing a `package.json` file to manage our dependancies, and a `index.js` file that will contain our plugin core logic.
+
 We will made the following assumption regarding our switch API:
 * it can be controlled through a RESTful API over HTTP protocol on our LAN
 * the switch IP address on our LAN is 192.168.0.10
@@ -156,3 +159,16 @@ mySwitch.prototype = {
   }
 ```
 
+We can now add our newly created plugin to Homebridge by installing it globally:
+```
+npm install -g switch-plugin@<gitUrl>
+```
+
+Open the config.json file located in your Homebridge directory in your favorite text editor. In the accessory section, add info to the array:
+
+{
+    "getUrl": "http://192.168.0.10/api/status",
+    "postUrl": "http://192.168.0.10/api/order",
+}
+
+Restart Homebridge and you shall now be able to switch on and off this fake switch through Home app on your iOS device.
