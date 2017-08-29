@@ -6,6 +6,10 @@
 It allows Apple devices' owners to control connected objects from different manufacturers using a single interface.
 It enhances Siri's capability to interprete commands intended for those devices.
 
+Homekit is particularly interesting, over other connected objects protocols like Home Assistance, if you own an iPhone
+and an AppleTV. Homekit is native on iPhone, allowing easy control of your appliances through Home app and quick access tab.
+The apple TV will behave as a hub allowing you to set up automation tasks and to control your home from outside of your home network.
+
 ## How doest it work?
 
 ### Homekit Accessory Protocol
@@ -30,6 +34,8 @@ Your proxy will receive Homekit requests and translate them according to your de
 ### Homebridge
 
 The proxy used for this article is a NodeJS server called [Homebridge](https://github.com/nfarina/homebridge) written using [HAP-node.js](https://github.com/KhaosT/HAP-NodeJS). Homebridge instanciate a `Bridge` Homekit object that you will be able to add through your Home application on your iOS devices. It then supports Plugins, which are community-contributed modules that provide a basic bridge from HomeKit to each of your various "smart home" devices. 
+Many home automation devices plugins have already been developed by the community (like [Nest](https://github.com/KraigM/homebridge-nest), [Lifx](https://github.com/devbobo/homebridge-lifx-lan) and even [all of Home Assistant compatible devices](https://github.com/home-assistant/homebridge-homeassistant)).
+If no plugin is available today for your object, this tutorial is made for you.
 
 ![Homebridge workflow](/ressources/workflow.png)
 
@@ -49,8 +55,8 @@ Create a new repository containing a `package.json` file to manage our dependanc
 We will made the following assumption regarding our switch API:
 * it can be controlled through a RESTful API over HTTP protocol on our LAN
 * the switch IP address on our LAN is 192.168.0.10
-* GET requests made to `/api/status` returns a boolean representing switch current state
-* POST requests made to `/api/order` containing a boolean representing the switch target state will trigger the corresponding action.
+* GET requests made to `/api/status` returns a boolean representing switch current state. Doing so will read the `On` characteristic of the switch.
+* POST requests made to `/api/order` containing a boolean representing the switch target state will trigger the corresponding action. Doing so will set the `On` characteristic of the switch.
 
 We will create a Homebridge plugin registering a new Accessory with two services:
 * `AccessoryInformation` service, required for every accessory, whatever the type, broadcasting information related to the device itself
@@ -78,7 +84,7 @@ We need to instanciate :
   * a `Model` characteristic
   * a `SerialNumber` characterisic
 * a `Switch` service containing:
-  * an `On`characteristic - the only required characteristic of this service
+  * an `On` characteristic - the only required characteristic of this service
   
 Unlike `AccessoryInformation` service's characteristics, which are readable and can be set at plugin initialisation, the `On` characteristic is writtable and require a getter and setter. 
 
@@ -135,9 +141,9 @@ mySwitch.prototype = {
       if (error) {
         me.log('STATUS: ' + response.statusCode);
         me.log(error.message);
-        next(error);
+        return next(error);
       }
-      next(null, body.currentState);
+      return next(null, body.currentState);
     });
   },
   
@@ -153,9 +159,9 @@ mySwitch.prototype = {
       if (error) {
         me.log('STATUS: ' + response.statusCode);
         me.log(error.message);
-        next(error);
+        return next(error);
       }
-      next();
+      return next();
     });
   }
 }
