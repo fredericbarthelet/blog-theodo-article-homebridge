@@ -1,4 +1,4 @@
-# How to make Siri your perfect home companion with devices not supported by Apple Homekit
+# How To Make Siri your Perfect Home Companion With Devices not Supported by Apple Homekit
 
 ## Why Homekit?
 
